@@ -85,3 +85,24 @@ form {
     border-color: #666666;
     background: #292929;
 }
+
+@media (max-width: 800px) {
+    .mainDiv {
+        padding: 20px; /* Added padding for better layout on smaller screens */
+    }
+
+    .homePage {
+        margin-top: 50px; /* Adjusted margin for better fit */
+        padding: 20px; /* Adjusted padding for better fit */
+    }
+
+    h1 {
+        font-size: 28px; /* Further reduced font size for smaller screens */
+        margin-bottom: 10px; /* Adjusted margin for better spacing */
+    }
+
+    .predictButton {
+        padding: 10px 20px; /* Adjusted padding for better fit */
+        font-size: 0.9rem; /* Further reduced font size for better fit */
+    }
+}
