@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Maname&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/styling/predictionstyles.css">
+    <title>Get Results</title>
+</head>
+<body>
+    <div class="background-container">
+        <div class="background bg1"></div>
+        <div class="background bg2"></div>
+        <div class="background bg3"></div>
+        <div class="background bg4"></div>
+        <div class="background bg5"></div>
+    </div>
+
+    <div class="form-container">
+        <form method="post" onsubmit="sendData(event)">
+            <h1 class="form-header">Delhi House Price Predictor</h1>
+
+            <label for="area">Area (in square guzz):</label>
+            <input type="number" id="area" name="area" required>
+
+            <label for="bhk">BHK:</label>
+            <input type="number" id="bhk" name="bhk" required>
+
+            <!-- <label for="furnishing">Furnishing:</label>
+            <select id="furnishing" name="furnishing" required>
+                <option value="furnished">Furnished</option>
+                <option value="unfurnished">Unfurnished</option>
+            </select> -->
+
+            <!-- <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                {% for st in status %}
+                <option value="{{st}}">{{st}}</option>
+                {% endfor %}
+            </select> -->
+
+            <!-- <label for="transaction">Transaction:</label>
+            <select id="transaction" name="transaction" required>
+                {% for trn in transaction %}
+                <option value="{{trn}}">{{trn}}</option>
+                {% endfor %}
+            </select> -->
+
+            <label for="bathroom">Bathroom:</label>
+            <input type="number" id="bathroom" name="bathroom" required>
+
+            <label for="locality">Select the Locality:</label>
+            <select id="locality" name="locality" required="1">
+                {% for locality in localities %}
+                <option value="{{locality}}">{{locality}}</option>
+                {% endfor %}
+            </select>
+
+            <!-- <label for="per_sqft">Price Per Squar Feet</label>
+            <input type="number" id="per_sqft" name="per_sqft" required> -->
+
+            
+
+            <button type="submit" onclick="sendData()">Predict</button>
+        </form>
+        <div>
+            <h3 id="prediction-heading"><span id="prediction"></span></h3>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="modalPrediction"></p>
+        </div>
+    </div>
+
+    <script>
+        function form_handler(event){
+            event.preventDefault();
+        }
+
+        
+        function sendData(){
+            document.querySelector('form').addEventListener("submit",form_handler);
+            
+            var xhr = new XMLHttpRequest();
+            var fd = new FormData(document.querySelector('form'));
+
+
+            xhr.open('POST','/prediction',true);
+
+            document.getElementById("prediction").innerHTML = "Wait Predicting the Prize";
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if(xhr.responseText != "Houses of the given requirements are not available in this locality" ){
+                        document.getElementById("prediction").innerHTML = "The Predicted Price is:<br>"+"&#8377 "+xhr.responseText+"/-";
+                    }
+                    else document.getElementById("prediction").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.onload = function(){};
+            xhr.send(fd);
+        }
+
+    </script>
+</body>
+</html>
